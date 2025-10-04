@@ -13,8 +13,15 @@
       <p>
         Super basic webgl app using webgl context version 1. It calls 'draw' a
         single time, which trigger the GPU shader to raster a single point on
-        screen. Inside the fragment shader, we change the point size in pixel
-        units using `gl_PointSize`.
+        screen.
+      </p>
+      <p>
+        Inside the vertex shader, we change the point location with
+        `gl_Position` and the pointn size, in pixel units, using `gl_PointSize`.
+      </p>
+      <p>
+        Inside the fragment shader, we define the color of each pixel to be
+        plain red.
       </p>
       <canvas id="mycanvas">Browser doesn't support canvas</canvas>
     </div>
