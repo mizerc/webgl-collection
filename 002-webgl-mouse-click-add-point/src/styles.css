@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  font-family: "Arial", sans-serif;
+  background-color: silver;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#mycanvas {
+  border: 1px solid #0623ff;
+  border-radius: 0px;
+}
