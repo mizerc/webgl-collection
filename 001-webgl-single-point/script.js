@@ -1,5 +1,3 @@
-console.log("hello, script first line!");
-
 // Vertex Shader source-code
 // Runs once per vertex
 const vsSource = `

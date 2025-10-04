@@ -107,16 +107,39 @@ function setup() {
   }
 
   // Keep list of added points and colors
-  const jsScreenPoints = [];
-  const jsScreenColors = [];
+  const jsScreenPoints = [[0.0, 0.0]];
+  const jsScreenColors = [[1.0, 1.0, 0.0, 0.0]];
+
+  // Paint
+  function paint() {
+    console.log("PAINT CALLED");
+    // Clear buffer
+    gl.clearColor(0.3, 0.3, 0.3, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    
+    for (let i = 0; i < jsScreenPoints.length; i++) {
+      const px = jsScreenPoints[i][0];
+      const py = jsScreenPoints[i][1];
+      const pcolor = jsScreenColors[i];
+      console.log(`Drawing p(${px},${py}, ${pcolor})`);
+
+      // Write click position to vec4nattribute inside the shader
+      gl.vertexAttrib2f(a_position, px, py);
+
+      // Write color to uniform location (vec4, rgba)
+      gl.uniform4fv(u_color, pcolor);
+
+      // Request draw call
+      const firstIndex = 0;
+      const count = 1; // call vertex shader 1 time
+      gl.drawArrays(gl.POINTS, firstIndex, count);
+    }
+  }
+  paint();
 
   // Register a onClick callback
   canvas.addEventListener("click", (event) => {
     const t0 = performance.now();
-
-    // Clear buffer
-    gl.clearColor(0.3, 0.3, 0.3, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
 
     // Grab click position
     const x = event.clientX;
@@ -138,23 +161,7 @@ function setup() {
     jsScreenColors.push(COLOR_LIST[randomCircularIndex]);
 
     // Redraw each point
-    for (let i = 0; i < jsScreenPoints.length; i++) {
-      const px = jsScreenPoints[i][0];
-      const py = jsScreenPoints[i][1];
-      const pcolor = jsScreenColors[i];
-      console.log(`Drawing p(${px},${py}, ${pcolor})`);
-
-      // Write click position to vec4nattribute inside the shader
-      gl.vertexAttrib2f(a_position, px, py);
-
-      // Write color to uniform location (vec4, rgba)
-      gl.uniform4fv(u_color, pcolor);
-
-      // Request draw call
-      const firstIndex = 0;
-      const count = 1; // call vertex shader 1 time
-      gl.drawArrays(gl.POINTS, firstIndex, count);
-    }
+    paint();
 
     // Print stats
     const t1 = performance.now();

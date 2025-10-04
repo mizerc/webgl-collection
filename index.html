@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List Folders</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        width: 100vw;
+        height: 100vh;
+      }
+
+      .tabContainer {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      /* Style the tab */
+      .tabButtonList {
+        background-color: #f1f1f1;
+        width: 30%;
+        max-width: 200px;
+      }
+
+      /* Style the buttons that are used to open the tab content */
+      .tabButtonList button {
+        display: block;
+        border: none;
+        background-color: rgb(226, 226, 226);
+        color: black;
+        padding: 22px 16px;
+        width: 100%;
+        outline: none;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      /* Change background color of buttons on hover */
+      .tabButtonList button:hover {
+        background-color: #ddd;
+      }
+
+      /* Create an active/current "tab button" class */
+      .tabButtonList button.active {
+        background-color: #8de4ff;
+      }
+
+      /* Style the tab content */
+      .tabContent {
+        margin: 10px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 2;
+      }
+
+      iframe {
+        display: block;
+        border: none;
+        width: 700px;
+        height: 700px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tabContainer">
+      <div class="tabButtonList">
+        <button class="defaultOpen" onclick="openTab(event, 'INTRO')">
+          INTRO
+        </button>
+      </div>
+      <div id="INTRO" class="tabContent">
+        <h3>INTRO</h3>
+        <p>
+          Each item on the vertical menu is a WebGL example from a folder of
+          this repository.
+        </p>
+      </div>
+    </div>
+    <script>
+      const CONTENT = [
+        {
+          tabButtonText: "001",
+          iframeSrc: "./001-webgl-single-point/index.html",
+        },
+        {
+          tabButtonText: "002",
+          iframeSrc: "./002-webgl-mouse-click-add-point/index.html",
+        },
+      ];
+
+      function openTab(event, buttonText) {
+        // 01-Hide all tab content
+        document
+          .querySelectorAll(".tabContent")
+          .forEach((tc) => (tc.style.display = "none"));
+
+        // 02-Remove active class from all buttons
+        document
+          .querySelectorAll(".tablinks")
+          .forEach((b) => b.classList.remove("active"));
+
+        // Show corresponding tab content
+        document.getElementById(buttonText).style.display = "flex";
+        evt.currentTarget.classList.add("active");
+      }
+
+      // Insert buttons
+      const tabButtonList = document.querySelector(".tabButtonList");
+      CONTENT.forEach((item, index) => {
+        // Create button
+        const button = document.createElement("button");
+        button.textContent = item.tabButtonText;
+        button.className = "tablinks";
+
+        // Make the first button default open
+        // if (index === 0) button.classList.add("defaultOpen");
+
+        // Set the click handler to open a tab
+        button.addEventListener("click", (evt) =>
+          openTab(evt, item.tabButtonText)
+        );
+
+        // Append the button to the container
+        tabButtonList.appendChild(button);
+
+        // Also create the corresponding tabContent div with iframe
+        const tabContent = document.createElement("div");
+        tabContent.id = item.tabButtonText;
+        tabContent.className = "tabContent";
+        tabContent.style.display = index === 0 ? "flex" : "none";
+
+        const iframe = document.createElement("iframe");
+        iframe.src = item.iframeSrc;
+        tabContent.appendChild(iframe);
+
+        document.querySelector(".tabContainer").appendChild(tabContent);
+      });
+
+      // Find the button with defaultOpen and enable it
+      document.getElementsByClassName("defaultOpen")[0].click();
+    </script>
+  </body>
+</html>

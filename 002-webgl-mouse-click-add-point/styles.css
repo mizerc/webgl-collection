@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  /* Element width and height include content, padding and border */
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  /* self */
+  height: 100vh;
+  font-family: "Arial", sans-serif;
+  /* content */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  /* content */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
