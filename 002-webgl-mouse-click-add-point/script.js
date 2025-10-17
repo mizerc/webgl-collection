@@ -116,7 +116,8 @@ function setup() {
     // Clear buffer
     gl.clearColor(0.3, 0.3, 0.3, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    
+
+    // ONE DRAW CALL PER POINT!
     for (let i = 0; i < jsScreenPoints.length; i++) {
       const px = jsScreenPoints[i][0];
       const py = jsScreenPoints[i][1];

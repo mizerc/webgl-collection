@@ -1,0 +1,34 @@
+[
+  {
+    "tabButtonText": "001-webgl-single-point",
+    "iframeSrc": "./001-webgl-single-point/index.html"
+  },
+  {
+    "tabButtonText": "002-webgl-mouse-click-add-point",
+    "iframeSrc": "./002-webgl-mouse-click-add-point/index.html"
+  },
+  {
+    "tabButtonText": "004-triangles",
+    "iframeSrc": "./004-triangles/index.html"
+  },
+  {
+    "tabButtonText": "005-indices",
+    "iframeSrc": "./005-indices/index.html"
+  },
+  {
+    "tabButtonText": "006-triangles-oop",
+    "iframeSrc": "./006-triangles-oop/index.html"
+  },
+  {
+    "tabButtonText": "007-rectangle",
+    "iframeSrc": "./007-rectangle/index.html"
+  },
+  {
+    "tabButtonText": "008-rectangle-texture",
+    "iframeSrc": "./008-rectangle-texture/index.html"
+  },
+  {
+    "tabButtonText": "009-geometry-material",
+    "iframeSrc": "./009-geometry-material/index.html"
+  }
+]

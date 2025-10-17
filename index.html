@@ -26,7 +26,7 @@
       .tabButtonList {
         background-color: #f1f1f1;
         width: 30%;
-        max-width: 200px;
+        max-width: 300px;
       }
 
       /* Style the buttons that are used to open the tab content */
@@ -41,6 +41,7 @@
         text-align: left;
         cursor: pointer;
         transition: 0.3s;
+        border-bottom: 1px solid rgb(176, 176, 176);
       }
 
       /* Change background color of buttons on hover */
@@ -76,81 +77,59 @@
   </head>
   <body>
     <div class="tabContainer">
-      <div class="tabButtonList">
-        <button class="defaultOpen" onclick="openTab(event, 'INTRO')">
-          INTRO
-        </button>
-      </div>
-      <div id="INTRO" class="tabContent">
-        <h3>INTRO</h3>
-        <p>
-          Each item on the vertical menu is a WebGL example from a folder of
-          this repository.
-        </p>
-      </div>
+      <div class="tabButtonList"></div>
     </div>
     <script>
-      const CONTENT = [
-        {
-          tabButtonText: "001",
-          iframeSrc: "./001-webgl-single-point/index.html",
-        },
-        {
-          tabButtonText: "002",
-          iframeSrc: "./002-webgl-mouse-click-add-point/index.html",
-        },
-      ];
+      async function start() {
+        function openTab(evt, buttonText) {
+          // 01-Hide all tab content
+          document
+            .querySelectorAll(".tabContent")
+            .forEach((tc) => (tc.style.display = "none"));
 
-      function openTab(event, buttonText) {
-        // 01-Hide all tab content
-        document
-          .querySelectorAll(".tabContent")
-          .forEach((tc) => (tc.style.display = "none"));
+          // 02-Remove active class from all buttons
+          document
+            .querySelectorAll(".tablinks")
+            .forEach((b) => b.classList.remove("active"));
 
-        // 02-Remove active class from all buttons
-        document
-          .querySelectorAll(".tablinks")
-          .forEach((b) => b.classList.remove("active"));
+          // Find tab by id
+          document.getElementById(buttonText).style.display = "flex";
+          evt.currentTarget.classList.add("active");
+        }
 
-        // Show corresponding tab content
-        document.getElementById(buttonText).style.display = "flex";
-        evt.currentTarget.classList.add("active");
+        // Insert buttons
+        const response = await fetch("./content.json");
+        const CONTENT = await response.json();
+        const tabButtonList = document.querySelector(".tabButtonList");
+        CONTENT.forEach((item, index) => {
+          // Create button
+          const button = document.createElement("button");
+          button.textContent = item.tabButtonText;
+          button.className = "tablinks";
+
+          // Add click handler to open a tab
+          button.addEventListener("click", (evt) =>
+            openTab(evt, item.tabButtonText)
+          );
+
+          // Append the button to the container
+          tabButtonList.appendChild(button);
+
+          // Also create the corresponding tabContent div with iframe
+          const tabContent = document.createElement("div");
+          tabContent.id = item.tabButtonText;
+          tabContent.className = "tabContent";
+          tabContent.style.display = index === 0 ? "flex" : "none";
+          const iframe = document.createElement("iframe");
+          iframe.src = item.iframeSrc;
+          tabContent.appendChild(iframe);
+          document.querySelector(".tabContainer").appendChild(tabContent);
+        });
+
+        // Find the button with defaultOpen and enable it
+        document.getElementsByClassName("defaultOpen")[0].click();
       }
-
-      // Insert buttons
-      const tabButtonList = document.querySelector(".tabButtonList");
-      CONTENT.forEach((item, index) => {
-        // Create button
-        const button = document.createElement("button");
-        button.textContent = item.tabButtonText;
-        button.className = "tablinks";
-
-        // Make the first button default open
-        // if (index === 0) button.classList.add("defaultOpen");
-
-        // Set the click handler to open a tab
-        button.addEventListener("click", (evt) =>
-          openTab(evt, item.tabButtonText)
-        );
-
-        // Append the button to the container
-        tabButtonList.appendChild(button);
-
-        // Also create the corresponding tabContent div with iframe
-        const tabContent = document.createElement("div");
-        tabContent.id = item.tabButtonText;
-        tabContent.className = "tabContent";
-        tabContent.style.display = index === 0 ? "flex" : "none";
-
-        const iframe = document.createElement("iframe");
-        iframe.src = item.iframeSrc;
-        tabContent.appendChild(iframe);
-
-        document.querySelector(".tabContainer").appendChild(tabContent);
-      });
-
-      // Find the button with defaultOpen and enable it
-      document.getElementsByClassName("defaultOpen")[0].click();
+      start();
     </script>
   </body>
 </html>
